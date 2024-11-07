@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Vidéos</title>
+    <style>
+        table {
+            width: 60%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1>Vidéos</h1>
+
+<!-- Vérifie si la liste des vidéos n'est pas vide -->
+<div th:if="${videos != null && !#lists.isEmpty(videos)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Créateur</th> <!-- Nouvelle colonne pour le créateur -->
+            <th>Actions</th>  <!-- Colonne pour les actions -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="video : ${videos}">
+            <td th:text="${video.name}">Nom de la vidéo</td>
+            <td th:text="${video.description}">Description</td>
+            <td th:text="${video.url}">URL</td> <!-- Affichage de l'URL -->
+            <td th:text="${video.creator.name}">Nom du créateur</td> <!-- Affichage du nom du créateur -->
+            <td>
+                <!-- Bouton pour modifier la vidéo -->
+                <form th:action="@{/videos/edit/{id}(id=${video.id})}" method="get">
+                    <button type="submit" class="btn btn-warning">Modifier</button>
+                </form>
+
+                <!-- Formulaire pour supprimer la vidéo -->
+                <form th:action="@{/videos/delete/{id}(id=${video.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette vidéo ?');">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Message affiché si la liste est vide -->
+<div th:if="${#lists.isEmpty(videos)}">
+    <p>Aucune vidéo disponible.</p>
+</div>
+
+<!-- Lien pour ajouter une nouvelle vidéo -->
+<a href="/videos/add" class="btn btn-primary">Ajouter une vidéo</a>
+
+</body>
+</html>

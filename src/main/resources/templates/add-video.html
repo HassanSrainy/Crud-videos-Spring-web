@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter une vidéo</title>
+</head>
+<body>
+<h1>Ajouter une nouvelle vidéo</h1>
+
+<!-- Formulaire pour ajouter une vidéo -->
+<form th:action="@{/videos/add}" th:object="${video}" method="post">
+    <label for="name">Nom de la vidéo:</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="Nom de la vidéo" required /><br><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}" placeholder="Description de la vidéo" required /><br><br>
+
+    <label for="url">URL de la vidéo:</label>
+    <input type="url" id="url" th:field="*{url}" placeholder="URL de la vidéo" required /><br><br>
+
+    <!-- Menu déroulant pour choisir un créateur -->
+    <label for="creatorId">Choisir le créateur:</label>
+    <select id="creatorId" th:field="*{creator.id}" required>
+        <option th:each="creator : ${creators}"
+                th:value="${creator.id}"
+                th:text="${creator.name}">Créateur</option>
+    </select><br><br>
+
+    <button type="submit">Ajouter Vidéo</button>
+</form>
+
+</body>
+</html>

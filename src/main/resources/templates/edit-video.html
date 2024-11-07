@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier la vidéo</title>
+</head>
+<body>
+
+<h1>Modifier la vidéo</h1>
+
+<!-- Vérification si la vidéo existe -->
+<div th:if="${video != null}">
+    <form th:action="@{/videos/edit/{id}(id=${video.id})}" th:object="${video}" method="post">
+        <label for="name">Nom de la vidéo :</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="Nom de la vidéo" required /><br><br>
+
+        <label for="description">Description :</label>
+        <input type="text" id="description" th:field="*{description}" placeholder="Description de la vidéo" required /><br><br>
+
+        <label for="url">URL :</label>
+        <input type="text" id="url" th:field="*{url}" placeholder="URL de la vidéo" required /><br><br>
+
+        <label for="creatorId">Créateur :</label>
+        <select id="creatorId" th:field="*{creator.id}" required>
+            <option th:each="creator : ${creators}"
+                    th:value="${creator.id}"
+                    th:text="${creator.name}">Créateur</option>
+        </select><br><br>
+
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+</div>
+
+<div th:if="${video == null}">
+    <p>Vidéo non trouvée.</p>
+</div>
+
+</body>
+</html>
